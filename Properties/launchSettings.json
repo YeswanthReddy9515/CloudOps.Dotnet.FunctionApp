@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "CloudOps.Dotnet.FunctionApp": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7162"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 31154,
+      "useSSL": false
+    }
+  }
+}
