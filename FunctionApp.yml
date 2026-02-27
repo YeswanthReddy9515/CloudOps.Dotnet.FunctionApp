@@ -62,7 +62,7 @@ stages:
                     connectionType: 'kubernetesServiceConnection'
                     kubernetesServiceConnection: 'Dev'
                     namespace: 'dev'
-                    manifests: '$(Pipeline.Workspace)/drop/manifests/*.yaml'
+                    manifests: '$(Pipeline.Workspace)/drop/*.yaml'
                     containers: 'darksideregistry.azurecr.io/$(imageRepository):$(tag)'
                     imagePullSecrets: '$(imagePullSecret)'
                 
