@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: core-function-deployment
+  lables:
+    app: core-app
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: core-app
+  template:
+    metadata:
+      labels:
+        app: core-app
+    spec:
+      containers:
+        - name: con01
+          image: darksideregistry.azurecr.io/function:latest
+          ports:
+            - containerPort: 8080

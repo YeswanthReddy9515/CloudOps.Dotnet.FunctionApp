@@ -1,0 +1,12 @@
+apiVersion: core/v1
+kind: Service
+metadata: 
+  name: core-svc
+  labels: 
+    app: core-app
+spec:
+  selector:
+    app: core-app
+  ports:
+    - port: 8080
+      targetPort: 8080
