@@ -4,6 +4,11 @@ pool:
 variables:
   buildConfiguration: Release
   buildPlatform: Any CPU
+  kubernetesServiceConnectionDev: 'Dev'
+  kubernetesServiceConnectionQa: 'Qa'
+  kubernetesServiceConnectionProd: 'Prod'
+  dockerRegistryServiceConnection: 'Acr-Connection'
+  imagePullSecret: 'acr-aks-secrets'
 stages:
   - stage: Build
     jobs:
@@ -24,6 +29,12 @@ stages:
             inputs:
               command: 'build'
               projects: '**/*.sln'
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'Acr-Connection'
+              repository: 'function'
+              command: 'buildAndPush'
+              Dockerfile: '**/Dockerfile'
           - task: CopyFiles@2
             inputs:
               SourceFolder: '$(Build.SourcesDirectory)'
@@ -34,3 +45,4 @@ stages:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: 'drop'
               publishLocation: 'Container'
+         
