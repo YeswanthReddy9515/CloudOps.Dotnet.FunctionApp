@@ -37,12 +37,12 @@ stages:
               Dockerfile: '**/Dockerfile'
           - task: CopyFiles@2
             inputs:
-              SourceFolder: '$(Build.SourcesDirectory)'
+              SourceFolder: '$(Build.SourcesDirectory)/manifests'
               Contents: '*'
-              TargetFolder: '$(Build.ArtifactstagingDirectory)'
+              TargetFolder: '$(Build.ArtifactstagingDirectory)/manifests'
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/manifests'
               ArtifactName: 'drop'
               publishLocation: 'Container'
          
