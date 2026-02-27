@@ -9,6 +9,8 @@ variables:
   kubernetesServiceConnectionProd: 'Prod'
   dockerRegistryServiceConnection: 'Acr-Connection'
   imagePullSecret: 'acr-aks-secrets'
+  imageRepository: 'function'
+  tag: $(Build.BuildId)
 stages:
   - stage: Build
     jobs:
@@ -45,4 +47,23 @@ stages:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)/manifests'
               ArtifactName: 'drop'
               publishLocation: 'Container'
+  - stage: DeployDev
+    displayName: DEV
+    jobs:
+      - deployment: DeployDev
+        environment:  'Dev'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: KubernetesManifest@1
+                  inputs:
+                    action: 'deploy'
+                    connectionType: 'kubernetesServiceConnection'
+                    kubernetesServiceConnection: 'Dev'
+                    namespace: 'dev'
+                    manifests: '$(Pipeline.Workspace)/drop/manifests/*.yaml'
+                    containers: 'darksideregistry.azurecr.io/$(imageRepository):$(tag)'
+                    imagePullSecrets: '$(imagePullSecret)'
+                
          
