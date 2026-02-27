@@ -1,0 +1,34 @@
+trigger: none
+variables:
+  buildConfiguration: Release
+  buildPlatform: Any CPU
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildJob
+        displayName: Build
+        steps: 
+          - task: UseDotNet@2
+            inputs:
+              packageType: 'sdk'
+              version: '8.x'
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: 'restore'
+              projects: '**/*.csproj'
+              feedsToUse: 'select'
+              vstsFeed: '3846a1fd-2375-4c96-9ffd-e0fe437360a0/32482252-1e99-4f74-aa6d-f89d15bc00ae'
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: 'build'
+              projects: '**/*.sln'
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)'
+              Contents: '*'
+              TargetFolder: '$(Build.ArtifactstagingDirectory)'
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'drop'
+              publishLocation: 'Container'
