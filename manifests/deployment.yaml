@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: core-function-deployment
-  lables:
+  labels:
     app: core-app
 spec: 
   replicas: 1
